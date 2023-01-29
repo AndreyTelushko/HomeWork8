@@ -10,71 +10,43 @@ namespace HomeWork8
     {
         static void Main(string[] args)
         {
-            int deep1 = InputInt("Введите размерность 1: ");
-            int deep2 = InputInt("Введите размерность 2: ");
-            int deep3 = InputInt("Введите размерность 3: ");
-            int countNums = 89;
+            Console.WriteLine("Введите размер массива");
+            int size = Convert.ToInt32(Console.ReadLine());
 
-            if (deep1 * deep2 * deep3 > countNums)
+            int[,] nums = new int[size, size];
+
+            int num = 1;
+            int i = 0;
+            int j = 0;
+
+            while (num <= size * size)
             {
-                Console.Write("Массив слишком большой");
-                return;
+                nums[i, j] = num;
+                if (i <= j + 1 && i + j < size - 1)
+                    ++j;
+                else if (i < j && i + j >= size - 1)
+                    ++i;
+                else if (i >= j && i + j > size - 1)
+                    --j;
+                else
+                    --i;
+                ++num;
             }
 
-            int[,,] resultNums = Create3DMassive(deep1, deep2, deep3);
+            PrintArray(nums);
 
-            for (int i = 0; i < resultNums.GetLength(0); i++)
+            void PrintArray(int[,] array)
             {
-                for (int j = 0; j < resultNums.GetLength(1); j++)
+                for (int m = 0; m < array.GetLength(0); m++)
                 {
-                    for (int k = 0; k < resultNums.GetLength(2); k++)
+                    Console.Write("[ ");
+                    for (int n = 0; n < array.GetLength(1); n++)
                     {
-                        Console.WriteLine($"{resultNums[i, j, k]} - [{i},{j},{k}]");
+                        Console.Write(array[m, n] + " ");
                     }
-                    Console.WriteLine();
+                    Console.Write("]");
+                    Console.WriteLine("");
                 }
-                Console.WriteLine();
-            }
-
-
-            int[,,] Create3DMassive(int size1, int size2, int size3)
-            {
-                int[,,] array = new int[size1, size2, size3];
-                int[] values = new int[countNums];
-                int num
-                 = 10;
-                for (int i = 0; i < values.Length; i++)
-                    values[i] = num
-                    ++;
-
-                for (int i = 0; i < values.Length; i++)
-                {
-                    int randomInd = new Random().Next(0, values.Length);
-                    int temp = values[i];
-                    values[i] = values[randomInd];
-                    values[randomInd] = temp;
-                }
-
-                int valueIndex = 0;
-
-                for (int i = 0; i < array.GetLength(0); i++)
-                {
-                    for (int j = 0; j < array.GetLength(1); j++)
-                    {
-                        for (int k = 0; k < array.GetLength(2); k++)
-                        {
-                            array[i, j, k] = values[valueIndex++];
-                        }
-                    }
-                }
-                return array;
-            }
-
-
-            int InputInt(string output)
-            {
-                Console.Write(output);
-                return int.Parse(Console.ReadLine());
             }
         }
     }
